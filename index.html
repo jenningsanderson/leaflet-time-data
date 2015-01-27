@@ -4,7 +4,8 @@
     <title>
       Leaflet Demo
     </title>
-    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+    <link rel="stylesheet" href="//cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.2.3/leaflet.draw.css">
   	<style>
       body,
       html {
@@ -18,14 +19,77 @@
   </head>
   <body>
   	<div id="map"></div>
-    <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
-    <script src="./restaurants.geojson"></script>
     
+    <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+    <script src='http://mapsarecool.com/maptime2015/boulder_restaurants.geojson'></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0/handlebars.min.js"></script>
+    <script src="http://leaflet.github.io/Leaflet.draw/leaflet.draw.js"></script>
   	<script>
-      var map = L.map('map').setView([40, -105.25], 14);
 
-     // var marker = L.marker([40, -105.25]).addTo(map);
+      var colors = {
+        'bar': '#8e44ad',
+        'cafe': '#e74c3c',
+        'pub ': '#16a085',
+        'restaurant': '#f1c40f'
+      };
       
+      var map = L.map('map').setView([40.02, -105.28], 15);
+
+      var drawnItems = new L.FeatureGroup();
+      map.addLayer(drawnItems);
+
+      var drawControl = new L.Control.Draw({
+        draw: {
+          position: 'topleft',
+          polygon: {
+            title: 'Draw a sexy polygon!',
+            allowIntersection: false,
+            drawError: {
+              color: '#b00b00',
+              timeout: 1000
+            },
+            shapeOptions: {
+              color: '#bada55'
+            },
+            showArea: true
+          },
+          polyline: {
+            metric: false
+          },
+          circle: {
+            shapeOptions: {
+              color: '#662d91'
+            }
+          }
+        },
+        edit: {
+          featureGroup: drawnItems
+        }
+      });
+      map.addControl(drawControl);
+
+      map.on('draw:created', function (e) {
+        var type = e.layerType,
+          layer = e.layer;
+
+        if (type === 'marker') {
+          layer.bindPopup('A popup!');
+        }
+
+        drawnItems.addLayer(layer);
+      });
+
+      var popupContent = function(properties) {
+        var content = '<div class="popup">' +
+          '<span class="title">{{name}}</span><br/>' +
+          '{{address}}<br/>' +
+          '<hr/>' +
+          '<span class="title">Amenity</span>: {{amenity}}<br/>' +
+          '<span class="title">Cuisine</span>: {{cuisine}}<br/>' +
+          '</div>';
+        return Handlebars.compile(content)(properties);
+      };
+     
       L.tileLayer('http://otile{s}.mqcdn.com/tiles/1.0.0/{type}/{z}/{x}/{y}.png', {
   			type: "sat",
   			maxZoom: 18,
@@ -33,7 +97,19 @@
   			subdomains: '1234'
 		}).addTo(map);
 
-      L.geoJson(boulderData).addTo(map);
+      L.geoJson(boulderData, {
+        pointToLayer: function(feature, latlng) {
+          return L.circleMarker(latlng, {
+            color: 'white',
+            fillColor: colors[feature.properties.amenity],
+            fillOpacity: 1,
+            radius: 8
+          });
+        },
+        onEachFeature: function(feature, layer) {
+          return layer.bindPopup(popupContent(feature.properties));
+        }
+      }).addTo(map);
 
   	</script>
 
