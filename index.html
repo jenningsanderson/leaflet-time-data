@@ -38,30 +38,13 @@
       var map = L.map('map').setView([40.05756818,-74.104348095], 10);
      
       L.tileLayer('http://otile{s}.mqcdn.com/tiles/1.0.0/{type}/{z}/{x}/{y}.png', {
-        type: "sat",
+        type: "map",
         maxZoom: 18,
         attribution: 'OpenStreetMap and MapQuest',
         subdomains: '1234'
       }).addTo(map);
 
-      var tweetLayer = L.geoJson(tweets, {
-        onEachFeature: function (feature, layer) {
-          layer.bindPopup(feature.properties.text);
-        }
-      }).addTo(map)
-
-      // var earthquakeLayer = L.geoJson(earthquakes, {
-      //   onEachFeature: function (feature, layer) {
-      //     // layer.bindPopup(feature.properties.Station_Na);
-      //   }
-      // }).addTo(map)
-
-      //L.map("map").fitBounds(alt_fuels.getBounds());
-
-      // Time Slider
-      var sliderControl = L.control.sliderControl({position: "topright", layer: tweetLayer, range: true});
-      map.addControl(sliderControl);
-      sliderControl.startSlider();
+      //Add new code here
 
     </script>
 
