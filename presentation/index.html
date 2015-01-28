@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Leaflet Time Data Presentation</title>
+
+		<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+		<meta name="author" content="Hakim El Hattab">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/black.css" id="theme">
+
+		<!-- Code syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+				<section>
+					<h1>Maptime Boulder! </h1>
+					<h3>Leaflet Part II: Time Data</h3>
+					<p>
+						<small>Created by <a href="http://www.townsendjennings.com">Jennings Anderson</a></small>
+					</p>
+					<p>Slides available here:</p>
+					<a href="http://bit.ly/1H8BxAs">http://bit.ly/1H8BxAs</a>
+				</section>
+
+				<section>
+					<section>
+						<h2>Last Time</h2>
+						<p>
+							Last time we built a simple webpage with an embedded leaflet map.
+						</p>
+						<img src="lib/images/last_time.png" />
+					</section>
+					
+					<section>
+						<h2>This Time</h2>
+						<p>
+							Tonight we will build from that map by adding other Leaflet plugins:
+						</p>
+							<ul>
+								<li><h5>Time Slider</h5></li>
+								<li><h5>Elevation Models</h5></li>
+								<li><h5>Any <a href="http://leafletjs.com/plugins.html">Plugin </a>You Want!</h5></li>
+							</ul>
+					</section>
+				</section>
+
+				<!-- Example of nested vertical slides -->
+				<section>
+					<section>
+						<h2>Setting Up</h2>
+						<p>Here is a template directory with the necessary files & sample data</p>
+						<p>It is nearly identical to the final product from last time, but there is some additional sample data and some ugly dependencies are saved locally</p>
+						<a target="_blank" href="http://bit.ly/15QC0H9">http://bit.ly/15QC0H9</a>
+					</section>
+					<section>
+						<h2>Download & Unzip</h2>
+						<p>Open index.html in both a browser and your favorite text editor.</p>
+						<img src="lib/images/browser_editor.png" />
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<h2>Part I: Lets get some new data</h2>
+						<p>
+							Recall GeoJSON:
+						</p>
+						<pre><code data-trim contenteditable>
+var tweets = {
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "properties": {
+                "time": "2012-10-28T18:02:01-06:00",
+                "text": "Off to check out the beach #sandy #hightide"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -74.20258736,
+                    40.04910362
+                ]
+            }
+        }
+    ]
+}
+						</code></pre>
+					</section>
+					
+					<section>
+						<h2>Add a datasource</h2>
+						<pre><code>
+&ltscript src="http://s.townsendjennings.com/leaflet-time-sample.js">&lt/script>
+						</code></pre>
+						<p>It's useful to keep all these together:</p>
+						<pre><code data-trim contenteditable>
+
+&ltscript src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js">&lt/script>
+&ltscript src="http://cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0/handlebars.min.js">&lt/script>
+&ltscript src="http://s.townsendjennings.com/leaflet-time-sample.js">&lt/script>
+
+						</code></pre>
+						<p>Note, this needn't be copied, this is just a reference</p>
+					</section>
+					<section>
+						<h2>In the code:</h2>
+
+						<p>Now we have a new variable available in our script: <code>tweets</code></p>
+
+						<pre><code data-trim contenteditable>
+L.geoJson(tweets, {
+	onEachFeature: function (feature, layer) {
+	console.log(feature)
+	}
+}
+						</code></pre>
+
+						<img src="lib/images/tweet_json.png" />
+					</section>
+
+					<section>
+						<h2>Add it to the map:</h2>
+						<p>In your script, add the following:</p>
+					<pre><code data-trim contenteditable>
+L.geoJson(tweets, {  
+    onEachFeature: function(feature, layer){
+		layer.bindPopup(feature.properties.text);
+    }
+ }).addTo(map);
+ 					</code></pre>
+ 					<img src="lib/images/popup.png" />
+ 					<p>Note: this is the default rendering, using a tool such as last time's <a href="http://mustache.github.io/">mustache.js</a> gives a lot of control over this appearance</p>
+					</section>
+				</section>
+
+				<section>
+					<section>
+					<h2>Part II: Using the data's attributes</h2>
+					<p>
+						Since each feature has a <strong>TIME</strong> element, we can use that for further logic to make our map interactive.
+					</p>
+					<pre><code data-trim contenteditable>
+var tweets = {
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "properties": {
+                "time": "2012-10-28T18:02:01-06:00",
+                "text": "Off to check out the beach #sandy #hightide"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -74.20258736,
+                    40.04910362
+                ]
+            }
+        }
+    ]
+}
+						</code></pre>
+					</section>
+
+					<section>
+						<h2>First: Add the Time Slider plugin</h2>
+						<p>These dependencies have been preloaded for the sample:</p>
+						<pre><code>
+<!-- JQUERY -->
+<script src="lib/jquery-1.10.2.min.js"></script>
+<script src="lib/jquery-ui.js"></script>
+
+<!-- SLIDER-->
+<script src="lib/leaflet.SliderControl.min.js"></script>
+						</code></pre>
+					</section>
+
+					<section>
+						<h2>Create the slider and initialize</h2>
+						<p>In your script, add the following lines</p>
+						<pre><code>
+var sliderControl = L.control.sliderControl(
+	{position: "topright", layer: tweetLayer});
+map.addControl(sliderControl);
+sliderControl.startSlider();
+						</code></pre>
+					</section>
+
+					<section>
+						<h2>Customizing</h2>
+						<p>The following variations are available:</p>
+						<pre><code>
+	{position: "topright", layer: tweetLayer, range: true}
+	{position: "topright", layer: tweetLayer, follow: 3}
+						</code></pre>
+
+						<p>More information available in the <a target="_blank" href="https://github.com/dwilhelm89/LeafletSlider">Documentation</a></p>
+					</section>
+					
+				</section>
+
+				<section>
+					<section>
+						<h2>Part III: New Plugins</h2>
+						<p>
+							Here are some other available plugins which are included in this sample project, just need to be implemented:
+						</p>
+					</section>
+
+					<section>
+						<h2>Elevation Models</h2>
+						<img src="lib/images/elevation.png" />
+						<p><a target="_blank" href="https://github.com/MrMufflon/Leaflet.Elevation">Leaflet.Elevation</a></p>
+					</section>
+
+					<section>
+						<h2>More Precise Time Control</h2>
+						<img src="lib/images/leafletplayback.png" />
+						<p><a target="_blank" href="https://github.com/hallahan/LeafletPlayback">Leaflet.Playback</a></p>
+					</section>
+
+					<section>
+						<h2>Yet another time control</h2>
+						<img src="lib/images/leaflettimeline.png" />
+						<p><a target="_blank" href="https://github.com/skeate/Leaflet.timeline">Leaflet.timeline</a></p>
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<h2>Datasets</h2>
+						<p>There are millions of data sets out there to play with, I've collected a few, but you probably have others you're working with, so lets try to play with those?</p>
+
+						<h3>More Datasets Below: </h3>
+					</section>
+
+					<section>
+						<h2>Alternative Fuels</h2>
+					</section>
+
+					<section>
+						<h2>Earthquakes</h2>
+						<p><a target="_blank" href="http://earthquake.usgs.gov/earthquakes/feed/v1.0/geojson.php">USGS Earthquakes as JSON</a></p>
+					</section>
+
+					<section>
+						<h2>NYC Taxis</h2>
+						<p><a target="_blank" href="http://research.microsoft.com/apps/pubs/?id=152883">Microsoft Research Taxi Data</a></p>
+					</section>
+				</section>
+
+				<section>
+					<h1>Thanks!</h1>
+					<p>Now let's play with some maps!</p>
+				</section>
+
+				
+
+			</div>
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+
+			// Full list of configuration options available at:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+				// Optional reveal.js plugins
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true },
+					{ src: 'plugin/notes/notes.js', async: true }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
