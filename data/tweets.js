@@ -27,12 +27,6 @@ var tweets = {
                     -74.08409684,
                     40.0802434
                 ]
-            },
-            "coding": {
-                "Environment": [
-                    "assessment",
-                    "weather"
-                ]
             }
         },
         {
@@ -46,12 +40,6 @@ var tweets = {
                 "coordinates": [
                     -74.09295628,
                     40.07835294
-                ]
-            },
-            "coding": {
-                "Environment": [
-                    "assessment",
-                    "weather"
                 ]
             }
         },
@@ -67,11 +55,6 @@ var tweets = {
                     -74.18698766,
                     40.05192001
                 ]
-            },
-            "coding": {
-                "Environment": [
-                    "assessment"
-                ]
             }
         },
         {
@@ -85,20 +68,6 @@ var tweets = {
                 "coordinates": [
                     -74.20259826,
                     40.04904797
-                ]
-            },
-            "coding": {
-                "Sentiment": [
-                    "ready"
-                ],
-                "Preparation": [
-                    "power4life"
-                ],
-                "Movement": [
-                    "hunkering"
-                ],
-                "Environment": [
-                    "personal"
                 ]
             }
         },
@@ -114,11 +83,6 @@ var tweets = {
                     -74.20270163,
                     40.04906098
                 ]
-            },
-            "coding": {
-                "Environment": [
-                    "personal"
-                ]
             }
         },
         {
@@ -132,11 +96,6 @@ var tweets = {
                 "coordinates": [
                     -74.20273522,
                     40.04904302
-                ]
-            },
-            "coding": {
-                "Environment": [
-                    "personal"
                 ]
             }
         },
@@ -152,11 +111,6 @@ var tweets = {
                     -74.20253542,
                     40.0490325
                 ]
-            },
-            "coding": {
-                "Environment": [
-                    "assessment"
-                ]
             }
         },
         {
@@ -170,11 +124,6 @@ var tweets = {
                 "coordinates": [
                     -74.20263732,
                     40.04901473
-                ]
-            },
-            "coding": {
-                "Environment": [
-                    "assessment"
                 ]
             }
         },
@@ -190,11 +139,6 @@ var tweets = {
                     -74.20265529,
                     40.04908349
                 ]
-            },
-            "coding": {
-                "Environment": [
-                    "assessment"
-                ]
             }
         },
         {
@@ -208,11 +152,6 @@ var tweets = {
                 "coordinates": [
                     -74.20260641,
                     40.04907896
-                ]
-            },
-            "coding": {
-                "Collective": [
-                    "pass on"
                 ]
             }
         },
@@ -228,11 +167,6 @@ var tweets = {
                     -74.20256708,
                     40.04908803
                 ]
-            },
-            "coding": {
-                "Collective": [
-                    "pass on"
-                ]
             }
         },
         {
@@ -246,11 +180,6 @@ var tweets = {
                 "coordinates": [
                     -74.20259668,
                     40.04903846
-                ]
-            },
-            "coding": {
-                "Collective": [
-                    "pass on"
                 ]
             }
         },
@@ -266,11 +195,6 @@ var tweets = {
                     -74.20260698,
                     40.04905488
                 ]
-            },
-            "coding": {
-                "Collective": [
-                    "seeking"
-                ]
             }
         },
         {
@@ -284,11 +208,6 @@ var tweets = {
                 "coordinates": [
                     -74.20260513,
                     40.0490587
-                ]
-            },
-            "coding": {
-                "Collective": [
-                    "seeking"
                 ]
             }
         },
@@ -304,14 +223,6 @@ var tweets = {
                     -74.20254986,
                     40.04906405
                 ]
-            },
-            "coding": {
-                "Collective": [
-                    "pass on"
-                ],
-                "Environment": [
-                    "assessment"
-                ]
             }
         },
         {
@@ -325,14 +236,6 @@ var tweets = {
                 "coordinates": [
                     -74.20270102,
                     40.04906586
-                ]
-            },
-            "coding": {
-                "Collective": [
-                    "pass on"
-                ],
-                "Environment": [
-                    "assessment"
                 ]
             }
         },
@@ -348,11 +251,6 @@ var tweets = {
                     -74.20231001,
                     40.04911825
                 ]
-            },
-            "coding": {
-                "Environment": [
-                    "assessment"
-                ]
             }
         },
         {
@@ -366,11 +264,6 @@ var tweets = {
                 "coordinates": [
                     -74.20262617,
                     40.04904151
-                ]
-            },
-            "coding": {
-                "Environment": [
-                    "assessment"
                 ]
             }
         },
@@ -386,11 +279,6 @@ var tweets = {
                     -74.20261471,
                     40.04903716
                 ]
-            },
-            "coding": {
-                "Environment": [
-                    "assessment"
-                ]
             }
         },
         {
@@ -405,11 +293,6 @@ var tweets = {
                     -74.20261804,
                     40.0490473
                 ]
-            },
-            "coding": {
-                "Environment": [
-                    "assessment"
-                ]
             }
         },
         {
@@ -423,11 +306,6 @@ var tweets = {
                 "coordinates": [
                     -74.20260086,
                     40.04925098
-                ]
-            },
-            "coding": {
-                "Environment": [
-                    "assessment"
                 ]
             }
         }
